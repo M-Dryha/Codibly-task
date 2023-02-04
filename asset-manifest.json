@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/Codibly-task/static/css/main.7acaea2f.css",
-    "main.js": "/Codibly-task/static/js/main.07d3183d.js",
+    "main.css": "/Codibly-task/static/css/main.c9969133.css",
+    "main.js": "/Codibly-task/static/js/main.a3bc1250.js",
     "index.html": "/Codibly-task/index.html",
-    "main.7acaea2f.css.map": "/Codibly-task/static/css/main.7acaea2f.css.map",
-    "main.07d3183d.js.map": "/Codibly-task/static/js/main.07d3183d.js.map"
+    "main.c9969133.css.map": "/Codibly-task/static/css/main.c9969133.css.map",
+    "main.a3bc1250.js.map": "/Codibly-task/static/js/main.a3bc1250.js.map"
   },
   "entrypoints": [
-    "static/css/main.7acaea2f.css",
-    "static/js/main.07d3183d.js"
+    "static/css/main.c9969133.css",
+    "static/js/main.a3bc1250.js"
   ]
 }
