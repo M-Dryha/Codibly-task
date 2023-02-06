@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/Codibly-task/static/css/main.7acaea2f.css",
-    "main.js": "/Codibly-task/static/js/main.9c16df0b.js",
-    "static/js/908.cb08d867.chunk.js": "/Codibly-task/static/js/908.cb08d867.chunk.js",
+    "main.js": "/Codibly-task/static/js/main.6c50a0c6.js",
+    "static/js/908.de5522c5.chunk.js": "/Codibly-task/static/js/908.de5522c5.chunk.js",
     "static/css/544.d4139ab1.chunk.css": "/Codibly-task/static/css/544.d4139ab1.chunk.css",
     "index.html": "/Codibly-task/index.html",
     "main.7acaea2f.css.map": "/Codibly-task/static/css/main.7acaea2f.css.map",
-    "main.9c16df0b.js.map": "/Codibly-task/static/js/main.9c16df0b.js.map",
-    "908.cb08d867.chunk.js.map": "/Codibly-task/static/js/908.cb08d867.chunk.js.map",
+    "main.6c50a0c6.js.map": "/Codibly-task/static/js/main.6c50a0c6.js.map",
+    "908.de5522c5.chunk.js.map": "/Codibly-task/static/js/908.de5522c5.chunk.js.map",
     "544.d4139ab1.chunk.css.map": "/Codibly-task/static/css/544.d4139ab1.chunk.css.map"
   },
   "entrypoints": [
     "static/css/main.7acaea2f.css",
-    "static/js/main.9c16df0b.js"
+    "static/js/main.6c50a0c6.js"
   ]
 }
