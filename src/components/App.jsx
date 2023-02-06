@@ -8,6 +8,7 @@ const styles = {
   Container: {
     background: 'linear-gradient(90deg, #69b7eb, #b3dbd3, #f4d6db)',
     pt: '20px',
+    height: '100vh',
   },
 };
 
