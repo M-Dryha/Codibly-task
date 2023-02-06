@@ -36,6 +36,9 @@ const Filter = () => {
     if (e.target.value !== '' && !regexNumber) {
       toast.error('Please, enter a valid number');
     }
+    if (e.target.value === '0') {
+      toast.error(`No data for id: ${normalizedId}`);
+    }
   };
 
   return (
