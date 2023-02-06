@@ -1,54 +1,78 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { ThreeCircles } from 'react-loader-spinner';
-import TextField from '@mui/material/TextField';
+import { useEffect } from 'react';
+import AutorenewTwoToneIcon from '@mui/icons-material/AutorenewTwoTone';
+import { TextField, Box } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
 import { useGetProductsQuery } from '../../redux/myProductSlice';
 import ProductsElement from '.././ProductsElement';
-// import s from './Filter.module.css';
 import { onChangeFilter } from '../../redux/myFilterSlice';
 
 const Filter = () => {
   const dispatch = useDispatch();
-  const { data, isLoading } = useGetProductsQuery();
+  const { data, error } = useGetProductsQuery();
   const idValue = useSelector(state => state.filter);
   const normalizedId = Number(idValue);
+
   const visibleProduct = data?.data.filter(d => d.id === normalizedId);
 
-  // const test = data?.data;
+  useEffect(() => {
+    if (data && normalizedId > data.total) {
+      toast.error(`No data for id: ${normalizedId}`);
+    }
+  }, [data, normalizedId]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.status, JSON.stringify(error.data));
+    }
+  }, [error]);
 
   const changeFilter = e => {
-    dispatch(onChangeFilter(e.currentTarget.value));
+    const regex = /^[0-9\b]+$/;
+    const regexNumber = regex.test(e.target.value);
+    if (e.target.value === '' || regexNumber) {
+      dispatch(onChangeFilter(e.target.value));
+    }
+    if (e.target.value !== '' && !regexNumber) {
+      toast.error('Please, enter a valid number');
+    }
   };
 
   return (
-    <div>
+    <Box sx={{ width: 544, mr: 'auto', ml: 'auto', height: 200 }}>
       <TextField
+        error
         label="Find product by id"
         type="number"
-        // inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-        variant="filled"
+        InputLabelProps={{
+          shrink: true,
+        }}
         value={idValue}
         onChange={changeFilter}
-        sx={{ width: 400 }}
+        sx={{ width: 544 }}
+        helperText="Enter a number"
       />
-      <ul>
-        {isLoading && (
-          <ThreeCircles
-            height="50"
-            width="50"
-            color="violet"
-            outerCircleColor="grey"
-            middleCircleColor="violet"
-            innerCircleColor="grey"
-          />
+      <Box sx={{ p: 3 }}>
+        {!idValue && (
+          <Box sx={{ width: 60, mr: 'auto', ml: 'auto' }}>
+            <AutorenewTwoToneIcon sx={{ fontSize: 60, color: 'grey' }} />
+          </Box>
         )}
         {data &&
-          visibleProduct.map(({ id, name, year }) => (
-            <ProductsElement key={id} id={id} name={name} year={year} />
+          visibleProduct.map(({ id, name, year, color, pantone_value }) => (
+            <ProductsElement
+              key={id}
+              id={id}
+              name={name}
+              year={year}
+              color={color}
+              pantone_value={pantone_value}
+            />
           ))}
-      </ul>
-    </div>
+      </Box>
+      <ToastContainer />
+    </Box>
   );
 };
 
 export default Filter;
-// className={s.field}

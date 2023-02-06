@@ -1,46 +1,51 @@
-// import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { useSearchParams } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState, useEffect } from 'react';
-import { ThreeCircles } from 'react-loader-spinner';
-// import { Grid } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { useGetProductsByPaginationQuery } from '../../redux/myProductSlice';
 import ProductsElement from '.././ProductsElement';
+import Loader from '.././Loader';
 
 const ProductsList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const productPage = searchParams.get('page') ?? '';
-
-  const [pages, setPages] = useState(1);
-  const { data: products, isLoading } =
-    useGetProductsByPaginationQuery(productPage);
+  const currentPage = searchParams.get('page');
+  const [pages, setPages] = useState(currentPage === null ? 1 : +currentPage);
+  const {
+    data: products,
+    isLoading,
+    error,
+  } = useGetProductsByPaginationQuery(pages);
+  console.log(useGetProductsByPaginationQuery());
   const checkPages = products && pages === products.total_pages;
-  if (checkPages) {
-    toast.error('There is no data');
-  }
+
   useEffect(() => {
-    const updateQueryString = page => {
-      const nextParams = page !== '' ? { page } : {};
-      setSearchParams(nextParams);
-    };
-    updateQueryString(pages);
-  }, [pages, setSearchParams]);
+    if (currentPage !== pages) {
+      setSearchParams({
+        page: pages,
+      });
+    }
+  }, [pages, currentPage, setSearchParams]);
+
+  useEffect(() => {
+    if (checkPages) {
+      toast.error('There is no data');
+    }
+  }, [checkPages]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.status, JSON.stringify(error.data));
+    }
+  }, [error]);
 
   return (
     <>
-      <section>
-        <ul>
-          {isLoading && (
-            <ThreeCircles
-              height="50"
-              width="50"
-              color="violet"
-              outerCircleColor="grey"
-              middleCircleColor="violet"
-              innerCircleColor="grey"
-            />
-          )}
+      <Box sx={{ p: 3 }}>
+        <Grid container spacing={2} sx={{ mb: '30px' }}>
+          {isLoading && <Loader />}
           {products &&
             products.data.map(({ id, name, year, color, pantone_value }) => (
               <ProductsElement
@@ -52,30 +57,29 @@ const ProductsList = () => {
                 pantone_value={pantone_value}
               />
             ))}
-        </ul>
-        <div>
-          <button onClick={() => setPages(pages + 1)} disabled={checkPages}>
-            Вперед
-          </button>
-        </div>
-        <div>
-          <button onClick={() => setPages(pages - 1)} disabled={pages === 1}>
-            Назад
-          </button>
-        </div>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
-      </section>
+        </Grid>
+        <Box sx={{ display: 'flex', mr: 'auto', ml: 'auto', width: 100 }}>
+          <Box sx={{ mr: '20px' }}>
+            <Button
+              variant="contained"
+              onClick={() => setPages(pages - 1)}
+              disabled={pages === 1}
+            >
+              <KeyboardArrowLeftIcon />
+            </Button>
+          </Box>
+          <Box>
+            <Button
+              variant="contained"
+              onClick={() => setPages(pages + 1)}
+              disabled={checkPages}
+            >
+              <KeyboardArrowRightIcon />
+            </Button>
+          </Box>
+        </Box>
+        <ToastContainer />
+      </Box>
     </>
   );
 };
